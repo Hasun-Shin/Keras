@@ -1,0 +1,100 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "ThoraricSurgery.csv 를 이용해보자. \n",
+    "\n",
+    "수술 전 진단데이터와 수술 후 생존 결과\n",
+    "\n",
+    "A:종양 위치(위험) \n",
+    "\n",
+    "B:폐활량 \n",
+    "\n",
+    "R : 생존여부. \n",
+    "\n",
+    "-------------------------------------------------------------------\n",
+    "keras.models.Sequential 함수 \n",
+    "\n",
+    "딥러닝 구조를 한층 한층 쌓아올릴 수 있게 함.\n",
+    "\n",
+    "keras.layers.Dense 함수\n",
+    "\n",
+    "층을 만드는 함수\n",
+    "\n",
+    "-----------------------------------------------------------------------\n",
+    "framework 들의 차이점. \n",
+    "-> tesnsor, keras, torch \n",
+    "\n",
+    "알고리즘이 다르다. \n",
+    "tensorflow : 구글\n",
+    "예 ) 마이크로소프트 - 요즘 대세 클라우드에 딥러닝을 적용하려면 ? \n",
+    "=> framework 를 바꿔보는 것이다. 성능을 좋게 하려고. \n",
+    "\n",
+    "그래픽/ 영상처리는 torch.\n",
+    "\n",
+    "자연어 등 인공지능은 tensorflow 가 강한 것 같다. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# -*- coding: utf-8 -*-\n",
+    "# 코드 내부에 한글을 사용가능 하게 해주는 부분입니다.\n",
+    "\n",
+    "# 딥러닝을 구동하는 데 필요한 케라스 함수를 불러옵니다.\n",
+    "from tensorflow.keras.models import Sequential  #은닉층 관련?\n",
+    "from tensorflow.keras.layers import Dense\n",
+    "\n",
+    "# 필요한 라이브러리를 불러옵니다.\n",
+    "import numpy as np\n",
+    "import tensorflow as tf\n",
+    "\n",
+    "# 실행할 때마다 같은 결과를 출력하기 위해 설정하는 부분입니다.\n",
+    "np.random.seed(3)\n",
+    "tf.random.set_seed(3)\n",
+    "\n",
+    "# 준비된 수술 환자 데이터를 불러들입니다.\n",
+    "Data_set = np.loadtxt(\"../datasets/ThoraricSurgery.csv\", delimiter=\",\")\n",
+    "\n",
+    "# 환자의 기록과 수술 결과를 X와 Y로 구분하여 저장합니다.\n",
+    "X = Data_set[:,0:17]\n",
+    "Y = Data_set[:,17]\n",
+    "\n",
+    "# 딥러닝 구조를 결정합니다(모델을 설정하고 실행하는 부분입니다).\n",
+    "model = Sequential()\n",
+    "model.add(Dense(30, input_dim=17, activation='relu'))\n",
+    "model.add(Dense(1, activation='sigmoid'))\n",
+    "\n",
+    "# 딥러닝을 실행합니다.\n",
+    "model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])\n",
+    "model.fit(X, Y, epochs=100, batch_size=10)\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
